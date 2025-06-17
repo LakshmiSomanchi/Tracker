@@ -1,0 +1,32 @@
+# .gitpod.yml
+tasks:
+  - name: Backend Setup
+    init: |
+      pip install --upgrade pip
+      pip install -r backend/requirements.txt
+      # Setup environment variables for FastAPI to pick up
+      # These variables are specific to THIS Gitpod workspace.
+      echo "export DATABASE_URL=\"postgresql://project_user:PMU#1234@localhost:5432/project_tracker_db\"" >> ~/.bashrc
+      echo "export SECRET_KEY=\"3b86e39bb2447d7694ef7fc052757e786f82d73bf2c5db64de98f7ef327a4b24\"" >> ~/.bashrc
+      source ~/.bashrc # Load new env vars
+      # This command creates tables when Gitpod starts the first time
+      python -c "from backend.database import Base, engine; Base.metadata.create_all(bind=engine)"
+    command: |
+      echo "Starting FastAPI backend..."
+      uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+
+  - name: PostgreSQL Setup
+    init: |
+      sudo service postgresql start
+      sudo -u postgres psql -c "CREATE DATABASE project_tracker_db;"
+      # !!! CHANGE THIS PASSWORD !!! Use the same strong password as in DATABASE_URL above.
+      sudo -u postgres psql -c "CREATE USER project_user WITH PASSWORD 'PMU#1234';"
+      sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE project_tracker_db TO project_user;"
+    command: |
+      echo "PostgreSQL is running."
+
+ports:
+  - port: 8000
+    onOpen: open-preview # Opens the FastAPI docs in a preview window
+  - port: 5432 # PostgreSQL default port, Gitpod exposes it automatically
+    onOpen: ignore
