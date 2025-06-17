@@ -22,8 +22,8 @@ app = FastAPI(
 # For deployment: you will need to add your Streamlit Cloud app's URL.
 origins = [
     "http://localhost",
-    "http://localhost:8501", # Default Streamlit local address
-    # "https://your-streamlit-app-url.streamlit.app", # <-- ADD YOUR DEPLOYED STREAMLIT URL HERE LATER
+    "http://localhost:8501",
+    "https://tracker.pmu.streamlit.app",
 ]
 
 app.add_middleware(
