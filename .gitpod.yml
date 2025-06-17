@@ -30,3 +30,5 @@ ports:
     onOpen: open-preview # Opens the FastAPI docs in a preview window
   - port: 5432 # PostgreSQL default port, Gitpod exposes it automatically
     onOpen: ignore
+  - port: 8501 # <-- ADD THIS BLOCK FOR STREAMLIT
+    onOpen: open-browser # Automatically opens Streamlit in a new browser tab
