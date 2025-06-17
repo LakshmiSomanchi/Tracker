@@ -12,8 +12,9 @@ tasks:
       source ~/.bashrc # Load new env vars
       python -c "from backend.database import Base, engine; Base.metadata.create_all(bind=engine)"
     command: |
+      command: |
       echo "Starting FastAPI backend..."
-      uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+      uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload --app-dir backend/ # <-- ADD --app-dir
 
   - name: PostgreSQL Setup
     init: |
@@ -30,5 +31,5 @@ ports:
     onOpen: open-preview # Opens the FastAPI docs in a preview window
   - port: 5432 # PostgreSQL default port, Gitpod exposes it automatically
     onOpen: ignore
-  - port: 8501 # <-- ADD THIS BLOCK FOR STREAMLIT
+  - port: 8501 # <-- THIS MUST BE PRESENT AND CORRECT
     onOpen: open-browser # Automatically opens Streamlit in a new browser tab
