@@ -4,12 +4,12 @@ tasks:
     init: |
       pip install --upgrade pip
       pip install -r backend/requirements.txt
-      # Setup environment variables for FastAPI to pick up
-      # These variables are specific to THIS Gitpod workspace.
+      # In .gitpod.yml, under the 'Backend Setup' task, inside the 'init' block:
+
       echo "export DATABASE_URL=\"postgresql://project_user:PMU#1234@localhost:5432/project_tracker_db\"" >> ~/.bashrc
-      echo "export SECRET_KEY=\"3b86e39bb2447d7694ef7fc052757e786f82d73bf2c5db64de98f7ef327a4b24\"" >> ~/.bashrc
+      echo "export SECRET_KEY=\"054f7713d49a4a7873119d7bd9611d23\"" >> ~/.bashrc
+      echo "export FASTAPI_BACKEND_URL=\"http://localhost:8000\"" >> ~/.bashrc # <-- ADD THIS LINE
       source ~/.bashrc # Load new env vars
-      # This command creates tables when Gitpod starts the first time
       python -c "from backend.database import Base, engine; Base.metadata.create_all(bind=engine)"
     command: |
       echo "Starting FastAPI backend..."
